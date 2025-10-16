@@ -10,14 +10,43 @@
     </style>
 </head>
 <body>
-    <h1>Weather Data Interpolation Tool</h1>
-    <p>Please select a csv file that was downloaded from the DDF Historical Observations card, it should contain globalRadiation60Min [joules per square centimeter] and or shortWaveRadiation [watts per square meter] as a column. This tool will only accept hourly data and will always give you shortWaveRadiation at 15 minute intervals.</p>
+    <h1>Weather Data Tools</h1>
+
     <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv">
-        <input type="submit" value="Upload and Process">
+        <input type="file" name="file" accept=".csv" required>
+        <br><br>
+        <button type="submit" name="tool" value="interpolator">Interpolation Radiation to 15 Min</button>
+        <hr style="margin: 1em 0; border: none; border-top: 1px solid #eee;">
+        <label for="gap_tolerance">Gap Tolerance:</label>
+        <select name="gap_tolerance" id="gap_tolerance">
+            <option value="1">1 hour</option>
+            <option value="3">3 hours</option>
+            <option value="6" selected>6 hours</option>
+            <option value="12">12 hours</option>
+            <option value="24">24 hours</option>
+            <option value="72">72 hours</option>
+            <option value="240">240 hours</option>
+        </select>
+        <button type="submit" name="tool" value="gap_checker">Check for Gaps</button>
     </form>
+
+    <hr style="margin: 2em 0;">
+
+    <h2>Instructions</h2>
+    <p><b>Interpolator:</b> Please select a csv file that was downloaded from the DDF Historical Observations card. It should contain `globalRadiation60Min` and/or `shortWaveRadiation` as a column. This tool accepts hourly data and will provide an interpolated file with 15-minute intervals.</p>
+    <p><b>Gap Checker:</b> This tool checks for gaps in hourly data for each station in the uploaded file. It will report any gaps that are longer than 6 hours.</p>
+
     {% if error %}
         <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if gap_results %}
+        <h3>Gap Check Results:</h3>
+        <ul>
+            {% for result in gap_results %}
+                <li>{{ result }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
 </body>
 </html>
