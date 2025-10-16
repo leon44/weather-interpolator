@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Data Interpolation Tool</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Weather Data Interpolation Tool</h1>
+    <p>Please select a csv file that was downloaded from the DDF Historical Observations card, it should contain globalRadiation60Min [joules per square centimeter] and or shortWaveRadiation [watts per square meter] as a column. This tool will only accept hourly data and will always give you shortWaveRadiation at 15 minute intervals.</p>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv">
+        <input type="submit" value="Upload and Process">
+    </form>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
