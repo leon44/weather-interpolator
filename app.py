@@ -57,7 +57,7 @@ def index():
                     resampled_data = station_data[['shortWaveRadiation']].resample('15T').interpolate(method='linear')
 
                     # Round the values
-                    resampled_data['shortWaveRadiation'] = resampled_data['shortWaveRadiation'].round().astype(int)
+                    resampled_data['shortWaveRadiation'] = resampled_data['shortWaveRadiation'].round(1)
 
                     # Forward-fill station-specific information
                     resampled_data['stationCode'] = station_code
